@@ -1,0 +1,4 @@
+- name: A
+  weight: 40
+- name: B
+  weight: 60

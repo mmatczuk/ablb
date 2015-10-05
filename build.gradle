@@ -1,0 +1,57 @@
+group 'com.github.mmatczuk'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // core
+    compile 'com.google.guava:guava:18.0'
+    compile 'org.springframework:spring-context:4.2.1.RELEASE'
+    compile 'org.yaml:snakeyaml:1.16'
+
+    // logging
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+    compile "org.slf4j:slf4j-api:1.7+"
+
+    // raw runner
+    compile 'io.undertow:undertow-core:1.1.8.Final'
+
+    // spring boot runner
+    compile 'org.springframework.boot:spring-boot-starter:1.2.6.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-undertow:1.2.6.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:1.2.6.RELEASE'
+
+    // test and benchmark
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.google.caliper:caliper:1.0-beta-2'
+    testCompile 'com.squareup.okhttp:okhttp:2.5.0'
+}
+
+configurations {
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+}
+
+task runBoot(type: JavaExec) {
+    main = 'com.github.mmatczuk.ablb.MainBoot'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task runUndertow(type: JavaExec) {
+    main = 'com.github.mmatczuk.ablb.MainUndertow'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task benchmark(type: JavaExec) {
+    main = 'net.siguser.ablb.benchmark.Benchmark'
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
